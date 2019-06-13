@@ -36,16 +36,31 @@
 
             <section class="result">
             	<div class="container">
+                    <!-- Show notification (if any) -->
+                    {% if messages %}
+                    	{% for message in messages %}
+                    		<div class= "alert alert-{{message.tags}}">
+                    			<a href="#" class="close" data-dismiss="alert">&times;</a>
+                                {{message}}
+                    		</div>
+
+
+                    	{%endfor%}
+                    {%endif%}
             		<div class="movies">
             			{% for movie in search_result %}
                             <div class="movies__item">
                                 <i class="movies__item-star fa fa-star hide"></i>
                                 <p class="movies__item-rating hide">{{ movie.fields.Rating }}/10</p>
+                                <button type="button" class="movies__item-expander hide" data-toggle="modal" data-target="#modal-{{movie.id}}"> View Detail</button>
                             	<img class="movies__item-image" src="{{ movie.fields.Pictures.0.url }}" alt="" />
                                 <div class="movies__item-title">
                                 	<p>{{ movie.fields.Name }}</p>
                                 </div>
                             </div>
+
+                        	{% include 'movies/detail-modal.html' %}
+                        	{% include 'movies/edit-modal.html' %}
                         {% endfor %}
             		</div>
             	</div>
